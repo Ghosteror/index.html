@@ -40,7 +40,7 @@
       alert("WebApp API недоступен! Запустите мини апп через Telegram.");
       throw new Error("WebApp API недоступен");
     }
-    
+
     const tg = window.Telegram.WebApp;
 
     document.getElementById("sendBtn").addEventListener("click", () => {
@@ -51,18 +51,7 @@
       }
       tg.sendData(JSON.stringify({ message }));
       alert("Сообщение отправлено");
-    });
-  </script>
-</body>
-</html>
-
-      // Отправляем данные в бота
-      tg.sendData(JSON.stringify({ message }));
-
-      // Можно закрыть мини апп после отправки, если нужно
-      // tg.close();
-
-      alert("Сообщение отправлено");
+      // tg.close(); // Можно закрыть мини апп, если надо
     });
   </script>
 </body>
