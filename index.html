@@ -1,22 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-  <title>Telegram Mini App</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <meta charset="UTF-8" />
+  <title>Mini App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #121212;
+      color: #eee;
+    }
+    input, button {
+      font-size: 16px;
+      padding: 8px;
+      margin-right: 8px;
+      border-radius: 4px;
+      border: none;
+    }
+    input {
+      width: 250px;
+    }
+    button {
+      background-color: #1e90ff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1c86ee;
+    }
+  </style>
 </head>
 <body>
-  <h1>Mini App</h1>
-  <input id="input" placeholder="Напиши сообщение" />
+  <h2>Mini App</h2>
+  <input id="message" type="text" placeholder="Напиши сообщение" />
   <button id="sendBtn">Отправить боту</button>
 
   <script>
     const tg = window.Telegram.WebApp;
 
-    document.getElementById('sendBtn').onclick = () => {
-      const message = document.getElementById('input').value;
-      if (!message) return alert("Введите сообщение");
+    document.getElementById("sendBtn").addEventListener("click", () => {
+      const message = document.getElementById("message").value.trim();
+      if (!message) {
+        alert("Введите сообщение");
+        return;
+      }
       tg.sendData(JSON.stringify({ message }));
-    };
+      alert("Сообщение отправлено");
+    });
   </script>
 </body>
 </html>
