@@ -36,7 +36,6 @@
   <button id="sendBtn">Отправить боту</button>
 
   <script>
-    // Проверяем, что WebApp объект доступен
     if (!window.Telegram?.WebApp) {
       alert("WebApp API недоступен! Запустите мини апп через Telegram.");
       throw new Error("WebApp API недоступен");
@@ -50,6 +49,13 @@
         alert("Введите сообщение");
         return;
       }
+      tg.sendData(JSON.stringify({ message }));
+      alert("Сообщение отправлено");
+    });
+  </script>
+</body>
+</html>
+
       // Отправляем данные в бота
       tg.sendData(JSON.stringify({ message }));
 
