@@ -1,58 +1,71 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Mini App</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tiramiss'u — Mini App</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
+      background: #0f0f0f;
+      color: #fff;
       padding: 20px;
-      background-color: #121212;
-      color: #eee;
     }
-    input, button {
-      font-size: 16px;
-      padding: 8px;
-      margin-right: 8px;
-      border-radius: 4px;
-      border: none;
-    }
-    input {
-      width: 250px;
+    h1 { margin-bottom: 16px; }
+    .card {
+      background: #1c1c1c;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
     }
     button {
-      background-color: #1e90ff;
-      color: white;
+      background: #ff6b9a;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: #fff;
+      font-size: 16px;
       cursor: pointer;
-    }
-    button:hover {
-      background-color: #1c86ee;
+      width: 100%;
     }
   </style>
 </head>
+
 <body>
-  <h2>Mini App</h2>
-  <input id="message" type="text" placeholder="Напиши сообщение" />
-  <button id="sendBtn">Отправить боту</button>
+  <h1>🧁 Tiramiss’u</h1>
 
+  <div class="card">
+    <h3>Торт «Шоколадный»</h3>
+    <p>1.5 кг · декор включён</p>
+    <button onclick="sendOrder('Торт Шоколадный, 1.5 кг')">
+      Заказать
+    </button>
+  </div>
+
+  <div class="card">
+    <h3>Трайфл в банке</h3>
+    <p>250 мл</p>
+    <button onclick="sendOrder('Трайфл 250 мл')">
+      Заказать
+    </button>
+  </div>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
-    if (!window.Telegram?.WebApp) {
-      alert("WebApp API недоступен! Запустите мини апп через Telegram.");
-      throw new Error("WebApp API недоступен");
-    }
-
     const tg = window.Telegram.WebApp;
+    tg.expand();
 
-    document.getElementById("sendBtn").addEventListener("click", () => {
-      const message = document.getElementById("message").value.trim();
-      if (!message) {
-        alert("Введите сообщение");
-        return;
-      }
-      tg.sendData(JSON.stringify({ message }));
-      alert("Сообщение отправлено");
-      // tg.close(); // Можно закрыть мини апп, если надо
-    });
+    function sendOrder(text) {
+      const payload = {
+        type: "order",
+        product: text,
+        time: Date.now()
+      };
+
+      tg.sendData(JSON.stringify(payload));
+      tg.close();
+    }
   </script>
 </body>
 </html>
