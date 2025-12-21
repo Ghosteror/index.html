@@ -1,55 +1,50 @@
-import asyncio
-from aiogram import Bot, Dispatcher
-from aiogram.types import (
-    Message,
-    InlineKeyboardMarkup,
-    InlineKeyboardButton,
-    WebAppInfo
-)
-from aiogram.filters import CommandStart
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tiramiss'u витрина</title>
+  <style>
+    body{font-family:Arial, sans-serif; padding:20px}
+    .card{border:1px solid #ddd; border-radius:12px; padding:16px; margin-bottom:12px}
+    button{padding:12px 16px; border-radius:10px; border:0; cursor:pointer}
+  </style>
+</head>
+<body>
+  <h1>🧁 Tiramiss’u</h1>
 
-# === НАСТРОЙКИ ===
-BOT_TOKEN = "8377825030:AAE8lkaHScj1lJYxSiFhvJCffhn2sb8uf5M"
-WEBAPP_URL = "https://ghosteror.github.io/index.html/"
+  <div class="card">
+    <h3>Торт “Шоколадный”</h3>
+    <p>1.5 кг • декор включен</p>
+    <button onclick="order('Шоколадный торт')">Заказать</button>
+  </div>
 
-bot = Bot(token=BOT_TOKEN)
-dp = Dispatcher()
+  <div class="card">
+    <h3>Трайфл в банке</h3>
+    <p>250 мл • 1 шт</p>
+    <button onclick="order('Трайфл 250мл')">Заказать</button>
+  </div>
 
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    const tg = window.Telegram?.WebApp;
+    if (tg) tg.expand();
 
-def main_kb():
-    return InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(
-                    text="🧁 Открыть витрину",
-                    web_app=WebAppInfo(url=WEBAPP_URL)
-                )
-            ]
-        ]
-    )
+    function order(item){
+      if (!tg) {
+        alert("Открой Mini App внутри Telegram через кнопку бота.");
+        return;
+      }
 
+      const payload = {
+        type: "order",
+        product: item,
+        ts: Date.now()
+      };
 
-@dp.message(CommandStart())
-async def start(message: Message):
-    await message.answer(
-        "Привет! Открывай витрину 👇",
-        reply_markup=main_kb()
-    )
-
-
-@dp.message(lambda m: m.web_app_data is not None)
-async def handle_webapp(message: Message):
-    data = message.web_app_data.data
-
-    await message.answer(
-        "🧁 НОВЫЙ ЗАКАЗ\n\n"
-        f"{data}"
-    )
-
-
-async def main():
-    await dp.start_polling(bot)
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
+      tg.sendData(JSON.stringify(payload)); // ✅ отправка в бота
+      tg.close(); // ✅ закрываем миниапп после отправки
+    }
+  </script>
+</body>
+</html>
