@@ -3,47 +3,72 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Tiramiss'u витрина</title>
+  <title>Tiramiss’u — Mini App</title>
+
   <style>
-    body{font-family:Arial, sans-serif; padding:20px}
-    .card{border:1px solid #ddd; border-radius:12px; padding:16px; margin-bottom:12px}
-    button{padding:12px 16px; border-radius:10px; border:0; cursor:pointer}
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #ffffff;
+      color: #111;
+    }
+    h1 {
+      margin-bottom: 16px;
+    }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    button {
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      background: #111;
+      color: #fff;
+      width: 100%;
+      font-size: 16px;
+    }
   </style>
 </head>
+
 <body>
   <h1>🧁 Tiramiss’u</h1>
 
   <div class="card">
-    <h3>Торт “Шоколадный”</h3>
-    <p>1.5 кг • декор включен</p>
-    <button onclick="order('Шоколадный торт')">Заказать</button>
+    <h3>Торт «Шоколадный»</h3>
+    <p>1.5 кг · декор включён</p>
+    <button onclick="order('Торт Шоколадный, 1.5 кг')">
+      Заказать
+    </button>
   </div>
 
   <div class="card">
     <h3>Трайфл в банке</h3>
-    <p>250 мл • 1 шт</p>
-    <button onclick="order('Трайфл 250мл')">Заказать</button>
+    <p>250 мл</p>
+    <button onclick="order('Трайфл 250 мл')">
+      Заказать
+    </button>
   </div>
 
+  <!-- Telegram WebApp API -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
   <script>
-    const tg = window.Telegram?.WebApp;
-    if (tg) tg.expand();
+    const tg = window.Telegram.WebApp;
+    tg.expand();
 
-    function order(item){
-      if (!tg) {
-        alert("Открой Mini App внутри Telegram через кнопку бота.");
-        return;
-      }
-
+    function order(product) {
       const payload = {
         type: "order",
-        product: item,
-        ts: Date.now()
+        product: product,
+        timestamp: Date.now()
       };
 
-      tg.sendData(JSON.stringify(payload)); // ✅ отправка в бота
-      tg.close(); // ✅ закрываем миниапп после отправки
+      tg.sendData(JSON.stringify(payload));
+      tg.close();
     }
   </script>
 </body>
